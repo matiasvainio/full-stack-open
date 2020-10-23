@@ -30,21 +30,25 @@ const App = () => {
 
 const Statistics = ({ good, neutral, bad }) => {
   let all = good + neutral + bad;
-  return (
-    <p>
-      good {good}
-      <br />
-      neutral {neutral}
-      <br />
-      bad {bad}
-      <br />
-      all {all}
-      <br />
-      average {(good - bad) / all}
-      <br />
-      positive {good / all * 100} %
-    </p>
-  );
+  if (all === 0) {
+    return <p>no feedback given</p>;
+  } else {
+    return (
+      <p>
+        good {good}
+        <br />
+        neutral {neutral}
+        <br />
+        bad {bad}
+        <br />
+        all {all}
+        <br />
+        average {(good - bad) / all}
+        <br />
+        positive {(good / all) * 100} %
+      </p>
+    );
+  }
 };
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
