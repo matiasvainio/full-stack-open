@@ -34,23 +34,26 @@ const Statistics = ({ good, neutral, bad }) => {
     return <p>no feedback given</p>;
   } else {
     return (
-      <div>
-        <StatisticsLine text="good" value={good} />
-        <StatisticsLine text="neutral" value={neutral} />
-        <StatisticsLine text="bad" value={bad} />
-        <StatisticsLine text="all" value={all} />
-        <StatisticsLine text="average" value={(good) / all} />
-        <StatisticsLine text="positive" value={(good / all) * 100 + "%"} />
-      </div>
+      <table>
+        <tbody>
+          <StatisticsLine text="good" value={good} />
+          <StatisticsLine text="neutral" value={neutral} />
+          <StatisticsLine text="bad" value={bad} />
+          <StatisticsLine text="all" value={all} />
+          <StatisticsLine text="average" value={(good - bad) / all} />
+          <StatisticsLine text="positive" value={(good / all) * 100 + "%"} />
+        </tbody>
+      </table>
     );
   }
 };
 
 const StatisticsLine = ({ text, value }) => {
   return (
-    <p>
-      {text} {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
