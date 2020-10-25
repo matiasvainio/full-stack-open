@@ -4,15 +4,26 @@ import "./index.css";
 
 const App = (props) => {
     const [selected, setSelected] = useState(0);
-    console.log(props.anecdotes);
+    const [votes, setVotes] = useState(
+        new Array(props.anecdotes.length).fill(0)
+    );
 
     const generateRandom = (length) => {
         return Math.floor(Math.random() * length);
     };
 
+    const voteAnecdote = () => {
+        const copy = [...votes];
+        copy[selected] += 1;
+        setVotes(copy);
+    };
+
+    console.log(votes);
+
     return (
         <div>
             {props.anecdotes[selected]} <br />
+            <p>has {votes[selected]} votes</p>
             <button
                 onClick={() =>
                     setSelected(generateRandom(props.anecdotes.length))
@@ -20,6 +31,7 @@ const App = (props) => {
             >
                 Next anecdote
             </button>
+            <button onClick={() => voteAnecdote()}>vote</button>
         </div>
     );
 };
