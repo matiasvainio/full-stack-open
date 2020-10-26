@@ -55,7 +55,6 @@ const App = () => {
 
 const Course = (courses) => {
     const course = courses.course;
-    console.log(course);
     return course.map((course) => {
         return (
             <div key={course.id}>
@@ -72,7 +71,6 @@ const Header = ({ course }) => {
 };
 
 const Content = ({ parts }) => {
-    console.log(parts[0]);
     return (
         <ul key>
             {parts.map((part) => (
