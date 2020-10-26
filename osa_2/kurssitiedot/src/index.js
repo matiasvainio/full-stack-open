@@ -72,13 +72,15 @@ const Header = ({ course }) => {
 };
 
 const Content = ({ parts }) => {
-    console.log(parts);
+    console.log(parts[0]);
     return (
-        <div key={parts.id}>
+        <ul key>
             {parts.map((part) => (
-                <Part part={part.name} exercises={part.exercises} />
+                <li key={part.id}>
+                    <Part part={part.name} exercises={part.exercises} />
+                </li>
             ))}
-        </div>
+        </ul>
     );
 };
 
@@ -92,11 +94,9 @@ const Total = ({ parts }) => {
 
 const Part = (props) => {
     return (
-        <div>
-            <p>
-                {props.part} {props.exercises}
-            </p>
-        </div>
+        <>
+            {props.part} {props.exercises}
+        </>
     );
 };
 
