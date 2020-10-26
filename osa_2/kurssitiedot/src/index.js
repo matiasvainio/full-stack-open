@@ -59,15 +59,12 @@ const Content = (props) => {
     );
 };
 
-const Total = (props) => {
-    return (
-        <p>
-            Number of exercises{" "}
-            {props.parts[0].exercises +
-                props.parts[1].exercises +
-                props.parts[2].exercises}
-        </p>
-    );
+const Total = ({ parts }) => {
+    const total = parts.reduce((sum, order) => {
+        return sum + order.exercises;
+    }, 0);
+
+    return <p>total of {total} exercises</p>;
 };
 
 const Part = (props) => {
