@@ -18,8 +18,6 @@ function App() {
         return countries.filter((country) => country.name.includes(c));
     };
 
-    console.log(countries);
-
     return (
         <div>
             <div>
@@ -33,15 +31,25 @@ function App() {
 
 const Countries = (props) => {
     const countries = props.countries;
+    const [newCountry, setNewCountry] = useState("");
+
+    console.log(newCountry);
     if (countries.length > 10) {
         return <p>Too many matches, specify another filter.</p>;
     } else if (countries.length === 1) {
         return <Country country={countries[0]} />;
+    } else if (newCountry !== "") {
+        return <Country country={newCountry} />;
     }
     return (
         <ul>
             {countries.map((c, i) => {
-                return <li key={i}>{c.name}</li>;
+                return (
+                    <li key={i}>
+                        {c.name}{" "}
+                        <button onClick={() => setNewCountry(c)}>show</button>
+                    </li>
+                );
             })}
         </ul>
     );
@@ -57,7 +65,7 @@ const Country = (props) => {
             <h2>languages</h2>
             <ul>
                 {country.languages.map((lan, i) => (
-                    <li key={i}>{lan.name}</li>
+                    <li key={i}>{lan.name} </li>
                 ))}
             </ul>
             <img alt="flag" src={country.flag} width="200" height="auto" />
