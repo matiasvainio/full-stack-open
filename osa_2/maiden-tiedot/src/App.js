@@ -5,7 +5,7 @@ function App() {
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
-        axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
+        axios.get("http://restcountries.eu/rest/v2/all").then((response) => {
             setCountries(response.data);
         });
     }, []);
@@ -33,7 +33,6 @@ const Countries = (props) => {
     const countries = props.countries;
     const [newCountry, setNewCountry] = useState("");
 
-    console.log(newCountry);
     if (countries.length > 10) {
         return <p>Too many matches, specify another filter.</p>;
     } else if (countries.length === 1) {
@@ -57,6 +56,7 @@ const Countries = (props) => {
 
 const Country = (props) => {
     const country = props.country;
+
     return (
         <div>
             <h1>{country.name}</h1>
@@ -69,6 +69,8 @@ const Country = (props) => {
                 ))}
             </ul>
             <img alt="flag" src={country.flag} width="200" height="auto" />
+            <h2>Weather in {country.capital}</h2>
+            <p>temperature </p>
         </div>
     );
 };
