@@ -32,7 +32,13 @@ const App = () => {
             setNewName("");
             setNumber("");
         } else {
-            alert(`${newName} is already on the list`);
+            if (
+                window.confirm(
+                    `${personObject.name} is already on the list, replace the old number with a new one?`
+                )
+            ) {
+                updatePerson(alreadyOnList.id, personObject);
+            }
         }
     };
 
@@ -61,6 +67,17 @@ const App = () => {
             });
         }
         return;
+    };
+
+    const updatePerson = (id, person) => {
+        console.log(person);
+        personService.update(id, person).then((returnedPerson) => {
+            setPersons(
+                persons.map((person) =>
+                    person.id !== id ? person : returnedPerson
+                )
+            );
+        });
     };
 
     return (
