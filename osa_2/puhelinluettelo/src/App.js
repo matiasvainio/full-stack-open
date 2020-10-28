@@ -52,6 +52,14 @@ const App = () => {
         return persons.filter((person) => person.name.includes(f));
     };
 
+    const deletePerson = (id) => {
+        personService.remove(id).then(() => {
+            personService.getAll().then((returnedPersons) => {
+                setPersons(returnedPersons);
+            });
+        });
+    };
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -72,7 +80,7 @@ const App = () => {
                 </div>
             </form>
             <h2>Numbers</h2>
-            <Person persons={persons} />
+            <Person persons={persons} deletePerson={deletePerson} />
         </div>
     );
 };
