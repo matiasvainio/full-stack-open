@@ -3,11 +3,13 @@ import Filter from "./components/Filter";
 import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
 import personService from "./services/persons";
+import "./app.css";
 
 const App = () => {
     const [persons, setPersons] = useState([]);
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
+    const [addedMessage, setAddedMessage] = useState("");
 
     useEffect(() => {
         personService.getAll().then((returnedPersons) => {
@@ -29,6 +31,10 @@ const App = () => {
                 setPersons(persons.concat(returnedPerson));
             });
             setPersons(persons.concat(personObject));
+            setAddedMessage(`${personObject.name} was added to numbers`);
+            setTimeout(() => {
+                setAddedMessage(null);
+            }, 2000);
             setNewName("");
             setNumber("");
         } else {
@@ -99,10 +105,19 @@ const App = () => {
                     <button type="submit">add</button>
                 </div>
             </form>
+            <Notification message={addedMessage} />
             <h2>Numbers</h2>
             <Person persons={persons} deletePerson={deletePerson} />
         </div>
     );
+};
+
+const Notification = ({ message }) => {
+    if (message === null) {
+        return null;
+    }
+
+    return <div className="success">{message}</div>;
 };
 
 export default App;
