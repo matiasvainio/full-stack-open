@@ -52,12 +52,15 @@ const App = () => {
         return persons.filter((person) => person.name.includes(f));
     };
 
-    const deletePerson = (id) => {
-        personService.remove(id).then(() => {
-            personService.getAll().then((returnedPersons) => {
-                setPersons(returnedPersons);
+    const deletePerson = (person) => {
+        if (window.confirm(`delete ${person.name}?`)) {
+            personService.remove(person.id).then(() => {
+                personService.getAll().then((returnedPersons) => {
+                    setPersons(returnedPersons);
+                });
             });
-        });
+        }
+        return;
     };
 
     return (

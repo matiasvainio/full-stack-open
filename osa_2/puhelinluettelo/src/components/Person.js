@@ -9,7 +9,7 @@ const Person = (props) => {
                 return (
                     <li key={i}>
                         {person.name} {person.number}{" "}
-                        <button onClick={() => deletePerson(person.id)}>
+                        <button onClick={() => deletePerson(person)}>
                             delete
                         </button>
                     </li>
