@@ -25,4 +25,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/blogs', blogsRouter);
 
+console.log(process.env.NODE_ENV);
+
 module.exports = app;
