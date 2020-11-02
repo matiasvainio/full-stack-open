@@ -45,6 +45,20 @@ test('blog added to /api/blogs', async () => {
   expect(urls).toContain('www.testing.com');
 });
 
+test('expect likes to be atleast 0', async () => {
+  const newBlog = {
+    title: 'test',
+    author: 'tester',
+    url: 'www.testing.com',
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(201);
+  const blogsAtEnd = await helper.blogsInDb();
+  const likesAtEnd = blogsAtEnd.map((blog) => blog.likes);
+
+  expect(likesAtEnd).not.toContain(undefined);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
