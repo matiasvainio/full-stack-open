@@ -25,8 +25,24 @@ test('identfier field is called id', async () => {
   const response = await api.get('/api/blogs').expect(200);
   const mapped = response.body.map((id) => id.id);
 
-  console.log(mapped);
   expect(mapped).toBeDefined();
+});
+
+test('blog added to /api/blogs', async () => {
+  const newBlog = {
+    title: 'test',
+    author: 'tester',
+    url: 'www.testing.com',
+    likes: 5,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(201);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1);
+
+  const urls = blogsAtEnd.map((blog) => blog.url);
+  expect(urls).toContain('www.testing.com');
 });
 
 afterAll(() => {
