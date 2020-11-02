@@ -23,4 +23,15 @@ blogsRouter.post('/', (request, response) => {
   }
 });
 
+blogsRouter.delete('/:id', (request, response) => {
+  console.log(request.params.id);
+  Blog.findByIdAndDelete(request.params.id, (err) => {
+    if (err) {
+      response.status(404).json();
+    } else {
+      response.status(204).json();
+    }
+  });
+});
+
 module.exports = blogsRouter;

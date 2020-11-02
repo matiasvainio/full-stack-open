@@ -70,6 +70,20 @@ test('expect title and url to be present', async () => {
   await api.post('/api/blogs').send(newBlog).expect(201);
 });
 
+describe('remove/update operations', () => {
+  test('delete single blog from the list', async () => {
+    const initialBlogs = await helper.blogsInDb();
+    const blogToDelete = initialBlogs[0];
+    // blogToDelete.id = '5a422bc61b54a676234d17fq';
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
