@@ -59,6 +59,17 @@ test('expect likes to be atleast 0', async () => {
   expect(likesAtEnd).not.toContain(undefined);
 });
 
+test('expect title and url to be present', async () => {
+  const newBlog = {
+    // title: 'test',
+    author: 'tester',
+    // url: 'www.testing.com',
+    likes: 5,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(201);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
