@@ -82,6 +82,21 @@ describe('remove/update operations', () => {
 
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
   });
+
+  test('update blog', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+    // blogToUpdate.id = '5a422a851b54a676234d17f';
+
+    const newBlog = {
+      likes: 10,
+    };
+
+    await api.put(`/api/blogs/${blogToUpdate.id}`).send(newBlog).expect(200);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd[0].likes).toBe(newBlog.likes);
+  });
 });
 
 afterAll(() => {
