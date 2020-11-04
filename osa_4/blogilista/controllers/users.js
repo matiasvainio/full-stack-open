@@ -8,7 +8,7 @@ usersRouter.get('/', async (request, response) => {
 });
 
 usersRouter.post('/', async (request, response) => {
-  const { body } = request.body;
+  const { body } = request;
   console.log(body);
 
   const saltRounds = 10;
