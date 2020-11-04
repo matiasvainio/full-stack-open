@@ -61,9 +61,9 @@ test('expect likes to be atleast 0', async () => {
 
 test('expect title and url to be present', async () => {
   const newBlog = {
-    // title: 'test',
+    title: 'test',
     author: 'tester',
-    // url: 'www.testing.com',
+    url: 'www.testing.com',
     likes: 5,
   };
 

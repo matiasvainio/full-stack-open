@@ -9,21 +9,29 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const { body } = request;
-  console.log(body);
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(body.password, saltRounds);
-  console.log(passwordHash);
+  if (body.password.length < 4) {
+    response.status(400).json({ error: 'password is too short' }).end();
+  } else if (!body.password || !body.username) {
+    response.status(400).json({ error: 'password or username missing' });
+  } else {
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
-  const user = new User({
-    username: body.username,
-    name: body.name,
-    passwordHash,
-  });
+    const user = new User({
+      username: body.username,
+      name: body.name,
+      passwordHash,
+    });
 
-  const savedUser = await user.save();
-
-  response.json(savedUser);
+    const savedUser = await user.save((err) => {
+      if (err) {
+        response.status(400).json(err.message).end();
+      } else {
+        response.status(200).json(savedUser);
+      }
+    });
+  }
 });
 
 module.exports = usersRouter;
