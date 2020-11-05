@@ -12,18 +12,8 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs.map((blog) => blog.toJSON()));
 });
 
-// const getTokenFrom = (request) => {
-//   const authorization = request.get('authorization');
-//   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//     return authorization.substring(7);
-//   }
-//   return null;
-// };
-
 blogsRouter.post('/', async (request, response) => {
   const { body } = request;
-  // const token = getTokenFrom(request);
-  // console.log(token);
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
   console.log(decodedToken);
   if (!decodedToken.id) {
@@ -58,13 +48,15 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', (request, response) => {
-  console.log(request.params.id);
-  Blog.findByIdAndDelete(request.params.id, (err) => {
-    if (err) {
-      response.status(404).json();
-    } else {
-      response.status(204).json();
-    }
+  // Blog.findByIdAndDelete(request.params.id, (err) => {
+  //   if (err) {
+  //     response.status(404).json();
+  //   } else {
+  //     response.status(204).json();
+  //   }
+  // });
+  Blog.findById(request.params.id, () => {
+    console.log('delete', request.params.id);
   });
 });
 
