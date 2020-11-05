@@ -32,7 +32,6 @@ test('identfier field is called id', async () => {
 test('blog added to /api/blogs', async () => {
   const user = await helper.usersInDb();
 
-  console.log(user);
   const newBlog = {
     title: 'test',
     author: 'tester',

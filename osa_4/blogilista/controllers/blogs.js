@@ -34,15 +34,15 @@ blogsRouter.post('/', async (request, response) => {
   }
 
   if (!blog.title || !blog.url) {
-    response.status(400).end();
-  } else {
-    const savedBlog = await blog.save();
-    // eslint-disable-next-line no-underscore-dangle
-    user.blogs = user.blogs.concat(savedBlog._id);
-    await user.save();
-
-    return response.status(201).json(savedBlog.toJSON());
+    return response.status(400).end();
   }
+
+  const savedBlog = await blog.save();
+  // eslint-disable-next-line no-underscore-dangle
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
+
+  return response.status(201).json(savedBlog.toJSON());
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
@@ -62,11 +62,11 @@ blogsRouter.delete('/:id', async (request, response) => {
 
   const user = await User.findById(decodedToken.id);
   if (blog.user.toString() === user.id.toString()) {
-    console.log('ids match');
-    response.status(204).end();
-  } else {
-    return response.status(401).json({ error: 'invalid token' });
+    await Blog.findByIdAndDelete(request.params.id);
+    return response.status(204).end();
   }
+
+  return response.status(401).json({ error: 'invalid token' });
 });
 
 blogsRouter.put('/:id', async (request, response) => {
