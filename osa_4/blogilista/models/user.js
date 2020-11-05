@@ -19,7 +19,7 @@ userSchema.set('toJSON', {
     // eslint-disable-next-line no-underscore-dangle
     returnableObject.id = object._id;
     // eslint-disable-next-line no-underscore-dangle
-    delete returnableObject._id;
+    // delete returnableObject._id;
     // eslint-disable-next-line no-underscore-dangle
     delete returnableObject.__v;
     delete returnableObject.passwordHash;
@@ -29,4 +29,5 @@ userSchema.set('toJSON', {
 
 userSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
