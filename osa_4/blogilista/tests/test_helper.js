@@ -59,6 +59,7 @@ const blogsInDb = async () => {
 
 const initialUsers = [
   {
+    _id: '5fa2a4cfc7f52d6ece316836',
     name: 'Bruce Wayne',
     username: 'Batman',
   },

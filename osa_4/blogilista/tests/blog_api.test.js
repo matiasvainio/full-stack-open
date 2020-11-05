@@ -6,6 +6,7 @@ const api = supertest(app);
 const helper = require('./test_helper');
 
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -29,11 +30,16 @@ test('identfier field is called id', async () => {
 });
 
 test('blog added to /api/blogs', async () => {
+  const user = await helper.usersInDb();
+
+  console.log(user);
   const newBlog = {
     title: 'test',
     author: 'tester',
     url: 'www.testing.com',
     likes: 5,
+    // eslint-disable-next-line no-underscore-dangle
+    userId: user[0].id,
   };
 
   await api.post('/api/blogs').send(newBlog).expect(201);
@@ -46,10 +52,14 @@ test('blog added to /api/blogs', async () => {
 });
 
 test('expect likes to be atleast 0', async () => {
+  const user = await helper.usersInDb();
+
   const newBlog = {
     title: 'test',
     author: 'tester',
     url: 'www.testing.com',
+    // eslint-disable-next-line no-underscore-dangle
+    userId: user[0].id,
   };
 
   await api.post('/api/blogs').send(newBlog).expect(201);
@@ -61,13 +71,12 @@ test('expect likes to be atleast 0', async () => {
 
 test('expect title and url to be present', async () => {
   const newBlog = {
-    title: 'test',
     author: 'tester',
     url: 'www.testing.com',
-    likes: 5,
+    userId: '5fa2b033ee8ff1048d98525c',
   };
 
-  await api.post('/api/blogs').send(newBlog).expect(201);
+  api.post('/api/blogs').send(newBlog).expect(400);
 });
 
 describe('remove/update operations', () => {
