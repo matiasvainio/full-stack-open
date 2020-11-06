@@ -50,11 +50,11 @@ const BlogForm = ({
       <h2>blogs</h2>
       <div>
         {`${user.name} logged in`}
-        <button onClick={() => handleLogout()}>logout</button>
+        <button onClick={handleLogout}>logout</button>
       </div>
       <div>
         <h2>create new</h2>
-        <form onSubmit={() => handleNewBlog()}>
+        <form onSubmit={handleNewBlog}>
           <div>
             title
             <input
