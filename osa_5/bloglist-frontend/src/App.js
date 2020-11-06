@@ -8,6 +8,9 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -41,6 +44,10 @@ const App = () => {
     setUser(null);
   };
 
+  const handleNewBlog = () => {
+    blogService.create({ title: title, author: author, url: url });
+  };
+
   return (
     <div>
       {user === null ? (
@@ -52,7 +59,18 @@ const App = () => {
           setPassword={setPassword}
         />
       ) : (
-        <BlogForm user={user} handleLogout={handleLogout} blogs={blogs} />
+        <BlogForm
+          handleNewBlog={handleNewBlog}
+          user={user}
+          handleLogout={handleLogout}
+          blogs={blogs}
+          title={title}
+          setTitle={setTitle}
+          author={author}
+          setAuthor={setAuthor}
+          url={url}
+          setUrl={setUrl}
+        />
       )}
     </div>
   );
