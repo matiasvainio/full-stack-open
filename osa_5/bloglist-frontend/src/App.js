@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Blog from './components/Blog';
+import { LoginForm, BlogForm } from './components/Forms';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -41,48 +41,21 @@ const App = () => {
     setUser(null);
   };
 
-  const loginForm = () => {
-    return (
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    );
-  };
-
-  const blogForm = () => {
-    return (
-      <div>
-        <h2>blogs</h2>
-        <div>
-          {`${user.name} logged in`}
-          <button onClick={() => handleLogout()}>logout</button>
-        </div>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </div>
-    );
-  };
-
-  return <div>{user === null ? loginForm() : blogForm()}</div>;
+  return (
+    <div>
+      {user === null ? (
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
+      ) : (
+        <BlogForm user={user} handleLogout={handleLogout} blogs={blogs} />
+      )}
+    </div>
+  );
 };
 
 export default App;
