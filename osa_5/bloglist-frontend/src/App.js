@@ -15,9 +15,6 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
   const [loginNot, setLoginNot] = useState(null);
   const [newBlogNot, setNewBlogNot] = useState(null);
 
@@ -42,6 +39,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
+
       setUser(user);
       setUsername('');
       setPassword('');
@@ -58,19 +56,13 @@ const App = () => {
     setUser(null);
   };
 
-  const handleNewBlog = async (event) => {
-    event.preventDefault();
+  const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility();
-    const newBlog = await blogService.create({
-      title: title,
-      author: author,
-      url: url,
-    });
-    setBlogs(blogs.concat(newBlog));
-    setAuthor('');
-    setTitle('');
-    setUrl('');
-    setNewBlogNot(`New blog ${title} by ${author} added`);
+
+    setBlogs(blogs.concat(blogObject));
+    await blogService.create(blogObject);
+
+    setNewBlogNot(`New blog ${blogObject.title} by ${blogObject.author} added`);
     setTimeout(() => {
       setNewBlogNot(null);
     }, 5000);
@@ -98,18 +90,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm
-              handleNewBlog={handleNewBlog}
-              user={user}
-              handleLogout={handleLogout}
-              blogs={blogs}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
-            />
+            <BlogForm createBlog={addBlog} />
           </Togglable>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
