@@ -1,8 +1,20 @@
-import React from 'react'
-const Blog = ({ blog }) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>
-)
+import React from 'react';
+import Togglable from './Togglable';
 
-export default Blog
+const Blog = ({ blog }) => {
+  return (
+    <div style={{ border: '2px solid black', padding: '5px', margin: '5px' }}>
+      {blog.title} {blog.author}
+      <Togglable buttonLabel="view" buttonLabel2="hide">
+        <div>{blog.url}</div>
+        <div>
+          {blog.likes}
+          <button>like</button>
+        </div>
+        <div>{blog.user.name}</div>
+      </Togglable>
+    </div>
+  );
+};
+
+export default Blog;
