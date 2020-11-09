@@ -21,7 +21,9 @@ const App = () => {
   const blogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService
+      .getAll()
+      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
   }, []);
 
   useEffect(() => {
@@ -62,6 +64,8 @@ const App = () => {
     setBlogs(blogs.concat(blogObject));
     await blogService.create(blogObject);
 
+    console.log(blogObject);
+
     setNewBlogNot(`New blog ${blogObject.title} by ${blogObject.author} added`);
     setTimeout(() => {
       setNewBlogNot(null);
@@ -94,10 +98,10 @@ const App = () => {
             buttonLabel2="cancel"
             ref={blogFormRef}
           >
-            <BlogForm createBlog={addBlog} />
+            <BlogForm createBlog={addBlog} user={user} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
           ))}
         </div>
       )}
