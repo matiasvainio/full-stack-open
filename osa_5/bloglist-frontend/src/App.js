@@ -42,7 +42,7 @@ const App = () => {
       const newUser = await loginService.login({ username, password });
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(newUser));
 
-      setUser(user);
+      setUser(newUser);
       setUsername('');
       setPassword('');
     } catch (exception) {
