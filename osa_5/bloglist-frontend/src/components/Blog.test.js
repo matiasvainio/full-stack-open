@@ -38,7 +38,9 @@ test('render url/likes', () => {
     name: 'Bruce Wayne',
   };
 
-  const component = render(<Blog blog={newBlog} user={user} />);
+  const component = render(
+    <Blog blog={newBlog} user={user} setLike={jest.fn()} />
+  );
   const div = component.container.querySelector('.togglableContent');
   expect(div).toHaveStyle('display: none');
 
@@ -46,4 +48,32 @@ test('render url/likes', () => {
   fireEvent.click(button);
 
   expect(div).not.toHaveStyle('display: none');
+});
+
+test('like button clicked', () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'www.testing.com',
+    likes: 5,
+    user: {
+      name: 'Bruce Wayne',
+    },
+  };
+
+  const user = {
+    name: 'Bruce Wayne',
+  };
+
+  const mockHandler = jest.fn();
+
+  const component = render(
+    <Blog blog={newBlog} user={user} handleLike={mockHandler} />
+  );
+
+  const button = component.container.querySelector('.like-button');
+  fireEvent.click(button);
+  fireEvent.click(button);
+
+  expect(mockHandler.mock.calls).toHaveLength(2);
 });

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import blogService from '../services/blogs';
 
-const Blog = ({ blog, setBlogs, blogs, user }) => {
+const Blog = ({ blog, user, removeBlog, handleLike, setLike, likes }) => {
   const [visible, setVisible] = useState(false);
-  const [like, setLike] = useState(0);
   const [visibleButton, setVisibleButton] = useState(false);
 
   const handleRemoveButton = () => {
@@ -23,29 +21,6 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   const hideWhenVisible = { display: visible ? '' : 'none' };
   const hideButton = { display: visibleButton ? 'none' : '' };
 
-  const updateBlogs = (newBlog) => {
-    const newBlogs = blogs.map((o) =>
-      o.id === newBlog.id ? { ...o, likes: newBlog.likes } : o
-    );
-    setBlogs(newBlogs);
-  };
-
-  const handleLike = () => {
-    setLike((newLike) => newLike + 1);
-    const newBlog = { ...blog, likes: like + 1 };
-    blogService.update(blog.id, newBlog);
-    updateBlogs(newBlog);
-  };
-
-  const removeBlog = async (id) => {
-    // eslint-disable-next-line no-alert
-    if (window.confirm(`Remove ${blog.title}?`)) {
-      await blogService.remove(id);
-      const newBlogs = await blogService.getAll();
-      setBlogs(newBlogs.sort((a, b) => b.likes - a.likes));
-    }
-  };
-
   return (
     <div
       className="blog"
@@ -62,15 +37,19 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       <div style={hideWhenVisible} className="togglableContent">
         <div>{blog.url}</div>
         <div>
-          {like}
-          <button type="button" onClick={() => handleLike(blog)}>
+          {likes}
+          <button
+            className="like-button"
+            type="button"
+            onClick={() => handleLike(blog)}
+          >
             like
           </button>
         </div>
         <div>{blog.user.name}</div>
         <button
           type="button"
-          onClick={() => removeBlog(blog.id)}
+          onClick={() => removeBlog(blog)}
           style={hideButton}
         >
           remove
@@ -91,7 +70,6 @@ Blog.propTypes = {
       name: PropTypes.string,
     }),
   }).isRequired,
-  setBlogs: PropTypes.func.isRequired,
 };
 
 export default Blog;
