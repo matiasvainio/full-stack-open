@@ -26,8 +26,7 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, likes }) => {
       className="blog"
       style={{ border: '2px solid black', padding: '5px', margin: '5px' }}
     >
-      {blog.title}
-      {blog.author}
+      {blog.title} {blog.author}
       <button type="button" style={hideWhenVisible} onClick={toggleVisibility}>
         hide
       </button>
