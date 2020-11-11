@@ -25,12 +25,12 @@ const LoginNotification = ({ notification }) => {
   );
 };
 
-BlogNotification.propTypes = {
-  notification: PropTypes.string.isRequired,
-};
+// BlogNotification.propTypes = {
+//   notification: PropTypes.string.isRequired,
+// };
 
-LoginNotification.propTypes = {
-  notification: PropTypes.string.isRequired,
-};
+// LoginNotification.propTypes = {
+//   notification: PropTypes.string.isRequired,
+// };
 
 export { BlogNotification, LoginNotification };

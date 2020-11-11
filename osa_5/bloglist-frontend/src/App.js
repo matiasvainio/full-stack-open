@@ -31,7 +31,7 @@ const App = () => {
     if (loggedUserJSON) {
       const newUser = JSON.parse(loggedUserJSON);
       setUser(newUser);
-      blogService.setToken(user.token);
+      blogService.setToken(newUser.token);
     }
   }, []);
 
@@ -100,9 +100,11 @@ const App = () => {
           >
             <BlogForm createBlog={addBlog} user={user} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
-          ))}
+          <div>
+            {blogs.map((blog) => (
+              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
+            ))}
+          </div>
         </div>
       )}
     </div>

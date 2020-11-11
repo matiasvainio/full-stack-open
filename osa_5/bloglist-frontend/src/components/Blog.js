@@ -41,7 +41,6 @@ const Blog = ({ blog, setBlogs }) => {
 
   return (
     <div style={{ border: '2px solid black', padding: '5px', margin: '5px' }}>
-      {handleRemoveButton}
       {blog.title}
       {blog.author}
       <button type="button" style={hideWhenVisible} onClick={toggleVisibility}>
@@ -72,8 +71,17 @@ const Blog = ({ blog, setBlogs }) => {
 };
 
 Blog.propTypes = {
-  blog: PropTypes.string.isRequired,
-  setBlogs: PropTypes.string.isRequired,
+  blog: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    url: PropTypes.string,
+    likes: PropTypes.number,
+    user: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+  setBlogs: PropTypes.func.isRequired,
 };
 
 export default Blog;

@@ -34,11 +34,11 @@ const LoginForm = ({
 };
 
 LoginForm.propTypes = {
-  handleLogin: PropTypes.string.isRequired,
+  handleLogin: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  setUsername: PropTypes.string.isRequired,
-  setPassword: PropTypes.string.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

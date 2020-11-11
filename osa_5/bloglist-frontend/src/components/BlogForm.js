@@ -57,8 +57,10 @@ const BlogForm = ({ createBlog, user }) => {
 };
 
 BlogForm.propTypes = {
-  createBlog: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired,
+  createBlog: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 export default BlogForm;
