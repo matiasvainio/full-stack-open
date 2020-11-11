@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const BlogForm = ({ createBlog, user }) => {
   const [title, setTitle] = useState('');
@@ -8,11 +9,11 @@ const BlogForm = ({ createBlog, user }) => {
   const addBlog = (event) => {
     event.preventDefault();
     createBlog({
-      title: title,
-      author: author,
-      url: url,
+      title,
+      author,
+      url,
       likes: 0,
-      user: user,
+      user,
     });
   };
 
@@ -53,6 +54,11 @@ const BlogForm = ({ createBlog, user }) => {
       </div>
     </div>
   );
+};
+
+BlogForm.propTypes = {
+  createBlog: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default BlogForm;

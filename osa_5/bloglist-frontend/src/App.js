@@ -23,14 +23,14 @@ const App = () => {
   useEffect(() => {
     blogService
       .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
+      .then((retBlogs) => setBlogs(retBlogs.sort((a, b) => b.likes - a.likes)));
   }, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      const newUser = JSON.parse(loggedUserJSON);
+      setUser(newUser);
       blogService.setToken(user.token);
     }
   }, []);
@@ -39,8 +39,8 @@ const App = () => {
     event.preventDefault();
 
     try {
-      const user = await loginService.login({ username, password });
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
+      const newUser = await loginService.login({ username, password });
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(newUser));
 
       setUser(user);
       setUsername('');
@@ -63,8 +63,6 @@ const App = () => {
 
     setBlogs(blogs.concat(blogObject));
     await blogService.create(blogObject);
-
-    console.log(blogObject);
 
     setNewBlogNot(`New blog ${blogObject.title} by ${blogObject.author} added`);
     setTimeout(() => {
@@ -91,7 +89,9 @@ const App = () => {
           <h2>blogs</h2>
           <div>
             {`${user.name} logged in`}
-            <button onClick={handleLogout}>logout</button>
+            <button type="button" onClick={handleLogout}>
+              logout
+            </button>
           </div>
           <Togglable
             buttonLabel="new blog"

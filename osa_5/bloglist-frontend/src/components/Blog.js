@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
 const Blog = ({ blog, setBlogs }) => {
   const [visible, setVisible] = useState(false);
   const [like, setLike] = useState(0);
   const [visibleButton, setVisibleButton] = useState(false);
+
+  const handleRemoveButton = () => {
+    const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'));
+    if (user.name !== blog.user.name) {
+      setVisibleButton(!visibleButton);
+    }
+  };
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -16,13 +24,14 @@ const Blog = ({ blog, setBlogs }) => {
   const hideWhenVisible = { display: visible ? '' : 'none' };
   const hideButton = { display: visibleButton ? 'none' : '' };
 
-  const handleLike = (blog) => {
-    setLike((like) => like + 1);
-    const newBlog = { ...blog, likes: like + 1 };
+  const handleLike = (returnBlog) => {
+    setLike((returnLike) => returnLike + 1);
+    const newBlog = { ...returnBlog, likes: like + 1 };
     blogService.update(blog.id, newBlog);
   };
 
   const removeBlog = async (id) => {
+    // eslint-disable-next-line no-alert
     if (window.confirm(`Remove ${blog.title}?`)) {
       await blogService.remove(id);
       const newBlogs = await blogService.getAll();
@@ -30,36 +39,41 @@ const Blog = ({ blog, setBlogs }) => {
     }
   };
 
-  const handleRemoveButton = () => {
-    const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'));
-    if (user.name !== blog.user.name) {
-      setVisibleButton(!visibleButton);
-    }
-  };
-
   return (
     <div style={{ border: '2px solid black', padding: '5px', margin: '5px' }}>
       {handleRemoveButton}
-      {blog.title} {blog.author}{' '}
-      <button style={hideWhenVisible} onClick={toggleVisibility}>
+      {blog.title}
+      {blog.author}
+      <button type="button" style={hideWhenVisible} onClick={toggleVisibility}>
         hide
       </button>
-      <button style={showWhenVisible} onClick={toggleVisibility}>
+      <button type="button" style={showWhenVisible} onClick={toggleVisibility}>
         show
       </button>
       <div style={hideWhenVisible}>
         <div>{blog.url}</div>
         <div>
           {like}
-          <button onClick={() => handleLike(blog)}>like</button>
+          <button type="button" onClick={() => handleLike(blog)}>
+            like
+          </button>
         </div>
         <div>{blog.user.name}</div>
-        <button onClick={() => removeBlog(blog.id)} style={hideButton}>
+        <button
+          type="button"
+          onClick={() => removeBlog(blog.id)}
+          style={hideButton}
+        >
           remove
         </button>
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.string.isRequired,
+  setBlogs: PropTypes.string.isRequired,
 };
 
 export default Blog;

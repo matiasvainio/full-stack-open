@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const baseUrl = '/api/blogs';
 
 let token = null;
@@ -30,7 +31,6 @@ const remove = async (id) => {
     headers: { Authorization: token },
   };
   const response = await axios.delete(`${baseUrl}/${id}`, config);
-  console.log(response);
   return response.data;
 };
 
