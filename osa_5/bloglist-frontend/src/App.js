@@ -107,6 +107,7 @@ const App = () => {
                 blog={blog}
                 setBlogs={setBlogs}
                 blogs={blogs}
+                user={user}
               />
             ))}
           </div>

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog, setBlogs, blogs }) => {
+const Blog = ({ blog, setBlogs, blogs, user }) => {
   const [visible, setVisible] = useState(false);
   const [like, setLike] = useState(0);
   const [visibleButton, setVisibleButton] = useState(false);
 
   const handleRemoveButton = () => {
-    const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'));
     if (user.name !== blog.user.name) {
       setVisibleButton(!visibleButton);
     }
@@ -60,7 +59,7 @@ const Blog = ({ blog, setBlogs, blogs }) => {
       <button type="button" style={showWhenVisible} onClick={toggleVisibility}>
         show
       </button>
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible} className="togglableContent">
         <div>{blog.url}</div>
         <div>
           {like}
