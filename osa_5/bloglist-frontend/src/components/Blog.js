@@ -31,7 +31,7 @@ const Blog = ({ blog, setBlogs, blogs }) => {
     console.log(newBlogs);
   };
 
-  const handleLike = (retBlog) => {
+  const handleLike = () => {
     setLike((newLike) => newLike + 1);
     const newBlog = { ...blog, likes: like + 1 };
     blogService.update(blog.id, newBlog);
