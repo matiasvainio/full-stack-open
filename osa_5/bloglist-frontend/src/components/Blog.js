@@ -32,7 +32,6 @@ const Blog = ({ blog, setBlogs, blogs }) => {
   };
 
   const removeBlog = async (id) => {
-    console.log('remove');
     if (window.confirm(`Remove ${blog.title}?`)) {
       await blogService.remove(id);
       const newBlogs = await blogService.getAll();
