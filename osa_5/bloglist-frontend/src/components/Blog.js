@@ -28,7 +28,7 @@ const Blog = ({ blog, setBlogs, blogs }) => {
     const newBlogs = blogs.map((o) =>
       o.id === newBlog.id ? { ...o, likes: newBlog.likes } : o
     );
-    console.log(newBlogs);
+    setBlogs(newBlogs);
   };
 
   const handleLike = () => {
@@ -43,29 +43,37 @@ const Blog = ({ blog, setBlogs, blogs }) => {
     if (window.confirm(`Remove ${blog.title}?`)) {
       await blogService.remove(id);
       const newBlogs = await blogService.getAll();
-      // (blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes))
       setBlogs(newBlogs.sort((a, b) => b.likes - a.likes));
     }
   };
 
   return (
-    <div style={{ border: '2px solid black', padding: '5px', margin: '5px' }}>
-      {/* {handleRemoveButton} */}
-      {blog.title} {blog.author}{' '}
-      <button style={hideWhenVisible} onClick={toggleVisibility}>
+    <div
+      className="blog"
+      style={{ border: '2px solid black', padding: '5px', margin: '5px' }}
+    >
+      {blog.title}
+      {blog.author}
+      <button type="button" style={hideWhenVisible} onClick={toggleVisibility}>
         hide
       </button>
-      <button style={showWhenVisible} onClick={toggleVisibility}>
+      <button type="button" style={showWhenVisible} onClick={toggleVisibility}>
         show
       </button>
       <div style={hideWhenVisible}>
         <div>{blog.url}</div>
         <div>
           {like}
-          <button onClick={() => handleLike(blog)}>like</button>
+          <button type="button" onClick={() => handleLike(blog)}>
+            like
+          </button>
         </div>
         <div>{blog.user.name}</div>
-        <button onClick={() => removeBlog(blog.id)} style={hideButton}>
+        <button
+          type="button"
+          onClick={() => removeBlog(blog.id)}
+          style={hideButton}
+        >
           remove
         </button>
       </div>
