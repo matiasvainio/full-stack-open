@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, setBlogs, blogs }) => {
   const [visible, setVisible] = useState(false);
   const [like, setLike] = useState(0);
   const [visibleButton, setVisibleButton] = useState(false);
@@ -19,14 +19,25 @@ const Blog = ({ blog, setBlogs }) => {
   const handleLike = (blog) => {
     setLike((like) => like + 1);
     const newBlog = { ...blog, likes: like + 1 };
+    console.log(newBlog.id);
     blogService.update(blog.id, newBlog);
+    updateBlogs(newBlog);
+  };
+
+  const updateBlogs = (newBlog) => {
+    const newBlogs = blogs.map((o) =>
+      o.id === newBlog.id ? { ...o, likes: newBlog.likes } : o
+    );
+    console.log(newBlogs);
   };
 
   const removeBlog = async (id) => {
+    console.log('remove');
     if (window.confirm(`Remove ${blog.title}?`)) {
       await blogService.remove(id);
       const newBlogs = await blogService.getAll();
-      setBlogs(newBlogs);
+      // (blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes))
+      setBlogs(newBlogs.sort((a, b) => b.likes - a.likes));
     }
   };
 
@@ -39,7 +50,7 @@ const Blog = ({ blog, setBlogs }) => {
 
   return (
     <div style={{ border: '2px solid black', padding: '5px', margin: '5px' }}>
-      {handleRemoveButton}
+      {/* {handleRemoveButton} */}
       {blog.title} {blog.author}{' '}
       <button style={hideWhenVisible} onClick={toggleVisibility}>
         hide
