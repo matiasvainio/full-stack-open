@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, user, removeBlog, handleLike, setLike, likes }) => {
+const Blog = ({ blog, user, removeBlog, handleLike, setLike, like }) => {
   const [visible, setVisible] = useState(false);
   const [visibleButton, setVisibleButton] = useState(false);
 
@@ -30,13 +30,18 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, likes }) => {
       <button type="button" style={hideWhenVisible} onClick={toggleVisibility}>
         hide
       </button>
-      <button type="button" style={showWhenVisible} onClick={toggleVisibility}>
+      <button
+        id="show-button"
+        type="button"
+        style={showWhenVisible}
+        onClick={toggleVisibility}
+      >
         show
       </button>
       <div style={hideWhenVisible} className="togglableContent">
         <div>{blog.url}</div>
         <div>
-          {likes}
+          <span id="like">{like}</span>
           <button
             className="like-button"
             type="button"
@@ -47,6 +52,7 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, likes }) => {
         </div>
         <div>{blog.user.name}</div>
         <button
+          id="remove-button"
           type="button"
           onClick={() => removeBlog(blog)}
           style={hideButton}

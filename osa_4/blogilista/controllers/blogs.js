@@ -77,7 +77,9 @@ blogsRouter.put('/:id', async (request, response) => {
   };
 
   try {
-    const returned = await Blog.findByIdAndUpdate(request.params.id, newBlog, { new: true });
+    const returned = await Blog.findByIdAndUpdate(request.params.id, newBlog, {
+      new: true,
+    });
     response.json(returned.toJSON());
   } catch (exception) {
     response.sendStatus(404);

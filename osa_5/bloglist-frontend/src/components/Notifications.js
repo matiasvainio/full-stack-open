@@ -19,7 +19,7 @@ const LoginNotification = ({ notification }) => {
   }
 
   return (
-    <div>
+    <div className="error">
       <h1>{notification}</h1>
     </div>
   );
