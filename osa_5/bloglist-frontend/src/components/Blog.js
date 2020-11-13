@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, user, removeBlog, handleLike, setLike, like }) => {
+const Blog = ({ blog, user, removeBlog, updateBlogs, blogService }) => {
   const [visible, setVisible] = useState(false);
   const [visibleButton, setVisibleButton] = useState(false);
+  const [like, setLike] = useState(0);
 
   const handleRemoveButton = () => {
     if (user.name !== blog.user.name) {
@@ -21,6 +22,13 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, like }) => {
   const hideWhenVisible = { display: visible ? '' : 'none' };
   const hideButton = { display: visibleButton ? 'none' : '' };
 
+  const handleLike = (blogObject) => {
+    setLike((newLike) => newLike + 1);
+    const newBlog = { ...blogObject, likes: like + 1 };
+    blogService.update(blogObject.id, newBlog);
+    updateBlogs(newBlog);
+  };
+
   return (
     <div
       className="blog"
@@ -31,7 +39,7 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, like }) => {
         hide
       </button>
       <button
-        id="show-button"
+        className="show-button"
         type="button"
         style={showWhenVisible}
         onClick={toggleVisibility}
@@ -41,7 +49,7 @@ const Blog = ({ blog, user, removeBlog, handleLike, setLike, like }) => {
       <div style={hideWhenVisible} className="togglableContent">
         <div>{blog.url}</div>
         <div>
-          <span id="like">{like}</span>
+          <span className="like">{like}</span>
           <button
             className="like-button"
             type="button"

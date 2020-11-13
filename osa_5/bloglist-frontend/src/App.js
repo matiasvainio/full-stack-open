@@ -14,7 +14,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [like, setLike] = useState(0);
   const [user, setUser] = useState(null);
   const [loginNot, setLoginNot] = useState(null);
   const [newBlogNot, setNewBlogNot] = useState(null);
@@ -25,6 +24,7 @@ const App = () => {
     blogService
       .getAll()
       .then((retBlogs) => setBlogs(retBlogs.sort((a, b) => b.likes - a.likes)));
+    // .then((retBlogs) => setBlogs(retBlogs));
   }, []);
 
   useEffect(() => {
@@ -78,13 +78,6 @@ const App = () => {
     setBlogs(newBlogs);
   };
 
-  const handleLike = (blogObject) => {
-    setLike((newLike) => newLike + 1);
-    const newBlog = { ...blogObject, likes: like + 1 };
-    blogService.update(blogObject.id, newBlog);
-    updateBlogs(newBlog);
-  };
-
   const removeBlog = async (blogObject) => {
     if (window.confirm(`Remove ${blogObject.title}?`)) {
       await blogService.remove(blogObject.id);
@@ -130,9 +123,8 @@ const App = () => {
                 blog={blog}
                 user={user}
                 removeBlog={removeBlog}
-                handleLike={handleLike}
-                setLike={setLike}
-                like={like}
+                blogService={blogService}
+                updateBlogs={updateBlogs}
               />
             ))}
           </div>
