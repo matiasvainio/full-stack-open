@@ -1,8 +1,7 @@
 const notificationReducer = (state = null, action) => {
   switch (action.type) {
     case 'HIDE':
-      const emptyState = '';
-      return emptyState;
+      return '';
     case 'SET_SHOW':
       return action.notification;
     default:
@@ -20,6 +19,20 @@ export const createNotification = (notification) => {
 export const removeNotification = () => {
   return {
     type: 'HIDE',
+  };
+};
+
+export const setNotification = (text, time) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SET_SHOW',
+      notification: text,
+    });
+    setTimeout(() => {
+      dispatch({
+        type: 'HIDE',
+      });
+    }, time * 1000);
   };
 };
 
