@@ -22,13 +22,16 @@ export const removeNotification = () => {
   };
 };
 
+let timer;
+
 export const setNotification = (text, time) => {
+  clearTimeout(timer);
   return async (dispatch) => {
     dispatch({
       type: 'SET_SHOW',
       notification: text,
     });
-    setTimeout(() => {
+    timer = setTimeout(() => {
       dispatch({
         type: 'HIDE',
       });
